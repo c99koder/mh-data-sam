@@ -1,0 +1,27 @@
+Format = A
+#
+# See mh/lib/read_table_A.pl  for definition of Format=A items
+#
+
+# Floorplaning info:
+#  - If you include x,y data, you can monitor and control these items
+#    with the web floorplan page:  http://localhost:8080/bin/floorplan.pl
+#  - For items, specify the x,y after the room group name:  room_group(x;y)
+#  - For room groups, specify x,y,width,height relative to its
+#    parent group:   Group, room_group, parent_group(x;y;w;h)
+#  - By default, floorplan.pl will use $Property as the top level group
+
+
+# Define Room groups for floorplan
+GROUP, DiningRoom,      Property(0;0;10;20)
+GROUP, LivingRoom,  Property(10;0;20;40)
+GROUP, BedRoom,     Property(30;0;15;30)
+GROUP, Kitchen,    Property(0;20;10;20)
+GROUP, Hall,    Property(30;30;10;10)
+GROUP, Bathroom,    Property(40;30;5;10)
+
+X10A,               A1,                 aerogarden_3,       LivingRoom(20;10)
+X10I,               A2,                 livingroom_light,   All_Lights|LivingRoom(0;15)
+
+X10I,               A3,                 bedroom_light,      All_Lights|BedRoom(5;0)
+X10A,               A4,                 bedroom_fan,        BedRoom(0;15)

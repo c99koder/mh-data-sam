@@ -1,0 +1,10 @@
+This is my MisterHouse configuration.
+
+Misc. info about my setup:
+
+ * Weather is fetched using a modified internet_weather.pl that uses city_nws for conditions and city for
+   forecast, as my particular city has different names for each query
+
+ * Bluetooth speakers in the bedroom can be connected / disconnected using DBus
+
+ * Boxee will turn the lights off in the living room when watching a video longer than an hour (a movie)
