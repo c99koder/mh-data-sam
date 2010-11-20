@@ -21,7 +21,25 @@ GROUP, Hall,    Property(30;30;10;10)
 GROUP, Bathroom,    Property(40;30;5;10)
 
 X10A,               A1,                 aerogarden_3,       LivingRoom(20;10)
-X10I,               A2,                 livingroom_light,   All_Lights|LivingRoom(0;15)
+X10I,               A2,                 x10_livingroom_light
 
-X10I,               A3,                 bedroom_light,      All_Lights|BedRoom(5;0)
+X10I,               A3,                 x10_bedroom_light
 X10A,               A4,                 bedroom_fan,        BedRoom(0;15)
+X10I,               A5,                 wakeup_alarm
+
+X10MS,              C1,                 x10_livingroom_motion,  Sensors|Motion_Sensors,                   MS13
+X10MS,              C3,                 x10_bedroom_motion,     Sensors|Motion_Sensors,                   MS13
+
+MOTION,             x10_livingroom_motion,         livingroom_motion
+PHOTOCELL,          x10_livingroom_motion,         livingroom_photocell
+
+MOTION,             x10_bedroom_motion,            bedroom_motion
+PHOTOCELL,          x10_bedroom_motion,            bedroom_photocell
+
+LIGHT,              x10_livingroom_light,          livingroom_light,       All_Lights|LivingRoom(0;15)
+LIGHT,              x10_bedroom_light,             bedroom_light,          All_Lights|BedRoom(5;0)
+
+OCCUPANCY,          om
+
+PRESENCE,           livingroom_motion,             om,                     livingroom_presence
+PRESENCE,           bedroom_motion,                om,                     bedroom_presence
