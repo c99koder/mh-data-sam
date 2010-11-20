@@ -25,7 +25,10 @@ X10I,               A2,                 x10_livingroom_light
 
 X10I,               A3,                 x10_bedroom_light
 X10A,               A4,                 bedroom_fan,        BedRoom(0;15)
-X10I,               A5,                 wakeup_alarm
+
+X10I,               B1,                 bedroom_light_switch
+X10I,               B2,                 bedroom_fan_switch
+X10I,               B3,                 wakeup_alarm
 
 X10MS,              C1,                 x10_livingroom_motion,  Sensors|Motion_Sensors,                   MS13
 X10MS,              C3,                 x10_bedroom_motion,     Sensors|Motion_Sensors,                   MS13
