@@ -1,3 +1,5 @@
+# noloop=start
+
 #Set up the occupancy monitor
 $om->set_edges($livingroom_motion, 1);
 $om->set_edges($bedroom_motion, 2);
@@ -15,3 +17,9 @@ $bedroom_light_switch->tie_event('set $x10_bedroom_light state $bedroom_light_sw
 $bedroom_fan_switch->tie_event('set $bedroom_fan state $bedroom_fan_switch');
 $livingroom_light_switch->tie_event('set $x10_livingroom_light state $livingroom_light_switch');
 
+# noloop=stop
+
+#keep the switch state in sync with the motion events
+if(state_changed $bedroom_light) {
+	set $bedroom_light_switch state $bedroom_light;
+}
