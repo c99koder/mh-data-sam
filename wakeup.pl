@@ -1,8 +1,11 @@
-my $wakeup_time = "7:00 am";
-my $said_goodnight = 0;
+my $wakeup_time = "7:00 am"; # noloop
+my $said_goodnight = 0; # noloop
 
-if(state_changed $bedroom_light_switch) {
-	if(state $bedroom_light_switch eq 'off' and time_greater_than('9 pm')) {
+$bedroom_light_switch->tie_event('bedroom_light_toggle()');
+$wakeup_alarm->tie_event('wakeup_alarm_toggle()');
+
+sub bedroom_light_toggle {
+	if(state $bedroom_light_switch eq 'off' and $bedroom_light_switch->get_set_by() eq 'rf' and time_greater_than('9 pm')) {
 		if($said_goodnight == 0) {
 			if(state $wakeup_alarm eq 'on') {
 				speak "Good night, Sam.  I will wake you tomorrow at " . $wakeup_time;
@@ -11,12 +14,13 @@ if(state_changed $bedroom_light_switch) {
 			}
 			$said_goodnight = 1;
 		}
-		#Clear the livingroom presence so the light turns off
+		#Clear the livingroom presence and turn off the light
 		$livingroom_presence->set_count(0);
+		set $livingroom_light 'off';
 	}
 }
 
-if(state_changed $wakeup_alarm) {
+sub wakeup_alarm_toggle {
 	if(state $wakeup_alarm eq 'on') {
         	speak "Wake up alarm scheduled for " . $wakeup_time;
 	}
@@ -25,6 +29,7 @@ if(state_changed $wakeup_alarm) {
         	speak "Wake up alarm is disabled";
 	}
 }
+
 if(time_now $wakeup_time) {
   if(state $wakeup_alarm eq 'on') {
         set $bedroom_light 'on';
