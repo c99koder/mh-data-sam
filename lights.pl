@@ -17,6 +17,10 @@ $bedroom_light_switch->tie_event('set $x10_bedroom_light state $bedroom_light_sw
 $bedroom_fan_switch->tie_event('set $bedroom_fan state $bedroom_fan_switch');
 $livingroom_light_switch->tie_event('set $x10_livingroom_light state $livingroom_light_switch');
 
+#enable X10 sync which will make sure all lights are in the proper state hourly
+$bedroom_light->x10_sync(1);
+$livingroom_light->x10_sync(1);
+
 # noloop=stop
 
 #keep the switch state in sync with the motion events
