@@ -1,7 +1,7 @@
 #noloop=start
 my $wakeup_time = "7:00 am";
 my $said_goodnight = 0;
-my $said_goodmorning = 0;
+my $said_goodmorning = 1;
 
 $bedroom_light_switch->tie_event('bedroom_light_toggle()');
 $wakeup_alarm->tie_event('wakeup_alarm_toggle()');
@@ -18,7 +18,7 @@ if(said $v_goodnight) {
 	goodnight();
 }
 
-if(state_changed $bedroom_motion eq 'motion' and $said_goodmorning eq 0 and time_greater_than('6 am') and time_less_than('12 pm')) {
+if(state_changed $livingroom_motion eq 'motion' and $said_goodmorning eq 0 and time_greater_than('6 am') and time_less_than('12 pm')) {
 	goodmorning();
 }
 
@@ -28,8 +28,8 @@ sub goodmorning {
 	my $forecast_tonight;
 	my $msg;
 
-	open(FORECAST, "$config_parms{data_dir}/web/weather_forecast.txt");
-	while(<FORECAST>) {
+	open(my $forecast, "$config_parms{data_dir}/web/weather_forecast.txt");
+	while(<$forecast>) {
 		$line = $_;
 		chomp($line);
 
@@ -48,11 +48,12 @@ sub goodmorning {
 			}
 		}
 	}
-
-	$msg = "Good morning.";
-	$msg .= "\nToday is $Holiday" if $Holiday;
-	$msg .= "\nToday's weather forecast: $forecast_today." if $forecast_today;
-	$msg .= "\nTonight: $forecast_tonight." if $forecast_tonight;
+	close($forecast);
+	run_voice_cmd 'stop this song';
+	$msg = "Good morning. ";
+	$msg .= "\nToday is $Holiday. " if $Holiday;
+	$msg .= "\nToday's weather forecast: $forecast_today. " if $forecast_today;
+	$msg .= "\nTonight: $forecast_tonight. " if $forecast_tonight;
 	$msg .= "\nIt is currently " . round($Weather{TempOutdoor}) . " degrees outside.";
 	speak $msg;
 	$said_goodmorning = 1;
@@ -95,7 +96,7 @@ if(time_now $wakeup_time) {
         set $bedroom_light 'on';
         set $bedroom_fan 'off';
 	speak "It is $Time_Now on $Date_Now_Speakable. Time to wake up!";
-#TODO: Start boxee playing music
+	run_voice_cmd 'Play my mix';
   }
   $said_goodnight = 0;
 }

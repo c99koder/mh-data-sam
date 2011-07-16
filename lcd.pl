@@ -52,7 +52,7 @@ if (new_second 10) {
     set $lcd1 
 #       substr(&time_date_stamp(14, $Time), 0, 18),
         &time_date_stamp(6, $Time) . ' ' . &time_date_stamp(8, $Time),
-        decode_entities($Weather{Summary_Short});
+        decode_entities($Weather{Summary_Short}). ' ' . decode_entities($Weather{TempIndoor});
 #,
 #        $Save{phone_callerid_data},
 #        $Save{email_flag};

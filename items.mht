@@ -20,7 +20,7 @@ GROUP, Kitchen,    Property(0;20;10;20)
 GROUP, Hall,    Property(30;30;10;10)
 GROUP, Bathroom,    Property(40;30;5;10)
 
-X10A,               A1,                 aerogarden_3,       LivingRoom(20;10)
+X10A,               A1,                 garden,       LivingRoom(20;10)
 X10I,               A2,                 x10_livingroom_light
 
 X10I,               A3,                 x10_bedroom_light
@@ -47,3 +47,7 @@ OCCUPANCY,          om
 
 PRESENCE,           livingroom_motion,             om,                     livingroom_presence
 PRESENCE,           bedroom_motion,                om,                     bedroom_presence
+
+XPL_SENSOR, c99org-garden.0001, garden_temperature, , temp
+XPL_SENSOR, c99org-garden.0001, garden_humidity, , humidity
+XPL_SENSOR, c99org-garden.0001, garden_waterlevel, , waterlevel
