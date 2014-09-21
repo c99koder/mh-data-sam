@@ -8,7 +8,15 @@ $wakeup_alarm->tie_event('wakeup_alarm_toggle()');
 
 $v_goodmorning = new Voice_Cmd('Good morning');
 $v_goodnight = new Voice_Cmd('Good night');
+
+$timer_livingroom_off = new Timer();
 #noloop=stop
+
+if(expired $timer_livingroom_off) {
+	$livingroom_presence->set_count(0);
+	set $livingroom_light 'off';
+	$om->reset();
+}
 
 if(said $v_goodmorning) {
 	goodmorning();
@@ -16,6 +24,10 @@ if(said $v_goodmorning) {
 
 if(said $v_goodnight) {
 	goodnight();
+}
+
+if(state_changed $x10_livingroom_light and $x10_livingroom_light->get_set_by() eq 'rf') {
+	set $livingroom_light state $x10_livingroom_light;
 }
 
 if(state_changed $livingroom_motion eq 'motion' and $said_goodmorning eq 0 and time_greater_than('6 am') and time_less_than('12 pm')) {
@@ -49,7 +61,7 @@ sub goodmorning {
 		}
 	}
 	close($forecast);
-	run_voice_cmd 'stop this song';
+#	run_voice_cmd 'stop this song';
 	$msg = "Good morning. ";
 	$msg .= "\nToday is $Holiday. " if $Holiday;
 	$msg .= "\nToday's weather forecast: $forecast_today. " if $forecast_today;
@@ -61,20 +73,17 @@ sub goodmorning {
 }
 
 sub goodnight {
-	speak "Good night.";
-	if(state $wakeup_alarm eq 'on') {
-		speak "I will wake you tomorrow at " . $wakeup_time;
-	}
+#	speak "Good night.";
+#	if(state $wakeup_alarm eq 'on') {
+#		speak "I will wake you tomorrow at " . $wakeup_time;
+#	}
 	$said_goodnight = 1;
 	$said_goodmorning = 0;
 }
 
 sub bedroom_light_toggle {
 	if(state $bedroom_light_switch eq 'off' and $bedroom_light_switch->get_set_by() eq 'rf' and (time_greater_than('9 pm') or time_less_than('4 am'))) {
-		#Clear the livingroom presence and turn off the light
-		$livingroom_presence->set_count(0);
-		set $livingroom_light 'off';
-		$om->reset();
+		set $timer_livingroom_off 5;
 		if($said_goodnight == 0) {
 			goodnight();
 		}
@@ -96,7 +105,7 @@ if(time_now $wakeup_time) {
         set $bedroom_light 'on';
         set $bedroom_fan 'off';
 	speak "It is $Time_Now on $Date_Now_Speakable. Time to wake up!";
-	run_voice_cmd 'Play my mix';
+#	run_voice_cmd 'Play my mix';
   }
   $said_goodnight = 0;
 }
